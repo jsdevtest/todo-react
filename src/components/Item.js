@@ -1,10 +1,43 @@
-import React from "react";
+import React, { Component } from "react"
+import Radium from "radium"
 
-const Item = ({ label, important }) => {
-  const styles = {
-    color: important ? "tomato" : null
-  };
-  return <li style={styles}>{label}</li>;
-};
+class Item extends Component {
+  state = {
+    important: false,
+    done: false
+  }
+  onItemClick = () => {
+    this.setState(({ done }) => ({
+      done: !done
+    }))
+  }
+  onImportantClick = e => {
+    e.stopPropagation()
+    this.setState(({ important }) => ({
+      important: !important
+    }))
+  }
+  render() {
+    const { label } = this.props
+    const { important, done } = this.state
+    return (
+      <div
+        style={[important && styles.important, done && styles.done]}
+        onClick={this.onItemClick}>
+        {label}
+        <button onClick={this.onImportantClick}>важная</button>
+      </div>
+    )
+  }
+}
 
-export default Item;
+const styles = {
+  important: {
+    fontWeight: "bold"
+  },
+  done: {
+    textDecoration: "line-through"
+  }
+}
+
+export default Radium(Item)
