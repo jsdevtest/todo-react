@@ -6,6 +6,7 @@ class Item extends Component {
     important: false,
     done: false
   }
+
   onItemClick = () => {
     this.setState(({ done }) => ({
       done: !done
@@ -17,15 +18,20 @@ class Item extends Component {
       important: !important
     }))
   }
+
   render() {
     const { label } = this.props
     const { important, done } = this.state
     return (
       <div
-        style={[important && styles.important, done && styles.done]}
-        onClick={this.onItemClick}>
+        style={[
+          important && styles.important,
+          done && styles.done
+        ]}
+        onClick={this.onItemClick}
+      >
         {label}
-        <button onClick={this.onImportantClick}>важная</button>
+        <button onClick={this.onImportantClick}>!</button>
       </div>
     )
   }
