@@ -13,14 +13,13 @@ class Item extends Component {
     }))
   }
   onImportantClick = e => {
-    e.stopPropagation()
     this.setState(({ important }) => ({
       important: !important
     }))
   }
 
   render() {
-    const { label } = this.props
+    const { label, onDeleted } = this.props
     const { important, done } = this.state
     return (
       <div
@@ -28,10 +27,10 @@ class Item extends Component {
           important && styles.important,
           done && styles.done
         ]}
-        onClick={this.onItemClick}
       >
-        {label}
+        <div onClick={this.onItemClick}>{label}</div>
         <button onClick={this.onImportantClick}>!</button>
+        <button onClick={onDeleted}>X</button>
       </div>
     )
   }
