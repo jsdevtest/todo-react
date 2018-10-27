@@ -45,7 +45,25 @@ class App extends Component {
     }))
   }
   onToggleImportant = id => {
-    console.log("Toggle Important", id)
+    this.setState(({ todoData }) => {
+      const index = todoData.findIndex(el => el.id === id)
+
+      // 1. обновляем объект
+      const oldItem = todoData[index]
+      const newItem = {
+        ...oldItem,
+        important: !oldItem.important
+      }
+      // 2. заносим в массив
+      const newArray = [
+        ...todoData.slice(0, index),
+        newItem,
+        ...todoData.slice(index + 1)
+      ]
+      return {
+        todoData: newArray
+      }
+    })
   }
   onToggleDone = id => {
     this.setState(({ todoData }) => {
@@ -69,9 +87,10 @@ class App extends Component {
     })
   }
   render() {
+    const { todoData } = this.state
     // в doneCount только те элементы у которых done = true и их количество
-    const doneCount = this.state.todoData.filter(el => el.done).length
-    const todoCount = this.state.todoData.length - doneCount
+    const doneCount = todoData.filter(el => el.done).length
+    const todoCount = todoData.length - doneCount
     return (
       <React.Fragment>
         <Header />
@@ -81,7 +100,7 @@ class App extends Component {
         <Search />
         <Filter />
         <List
-          todos={this.state.todoData}
+          todos={todoData}
           onDeleted={this.deleteItem}
           onToggleDone={this.onToggleDone}
           onToggleImportant={this.onToggleImportant}
