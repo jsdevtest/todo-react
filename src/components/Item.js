@@ -19,7 +19,12 @@ class Item extends Component {
   }
 
   render() {
-    const { label, onDeleted } = this.props
+    const {
+      label,
+      onDeleted,
+      onToggleImportant,
+      onToggleDone
+    } = this.props
     const { important, done } = this.state
     return (
       <div
@@ -28,8 +33,8 @@ class Item extends Component {
           done && styles.done
         ]}
       >
-        <div onClick={this.onItemClick}>{label}</div>
-        <button onClick={this.onImportantClick}>!</button>
+        <div onClick={onToggleDone}>{label}</div>
+        <button onClick={onToggleImportant}>!</button>
         <button onClick={onDeleted}>X</button>
       </div>
     )

@@ -1,7 +1,12 @@
 import React from "react"
 import Item from "./Item"
 
-const List = ({ todos, onDeleted }) => {
+const List = ({
+  todos,
+  onDeleted,
+  onToggleImportant,
+  onToggleDone
+}) => {
   return (
     <React.Fragment>
       {todos.map(item => {
@@ -11,6 +16,8 @@ const List = ({ todos, onDeleted }) => {
           <Item
             key={id}
             onDeleted={() => onDeleted(id)}
+            onToggleDone={() => onToggleDone(id)}
+            onToggleImportant={() => onToggleImportant(id)}
             {...itemProps}
           />
         )

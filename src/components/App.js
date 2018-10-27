@@ -29,7 +29,12 @@ class App extends Component {
       todoData: state.todoData.filter(el => el.id !== id)
     }))
   }
-
+  onToggleImportant = id => {
+    console.log("Toggle Important", id)
+  }
+  onToggleDone = id => {
+    console.log("Toggle Done", id)
+  }
   render() {
     return (
       <React.Fragment>
@@ -40,6 +45,8 @@ class App extends Component {
         <List
           todos={this.state.todoData}
           onDeleted={this.deleteItem}
+          onToggleDone={this.onToggleDone}
+          onToggleImportant={this.onToggleImportant}
         />
       </React.Fragment>
     )
