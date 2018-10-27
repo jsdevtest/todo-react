@@ -1,12 +1,19 @@
 import React, { Component } from "react"
 import Radium from "radium"
 
-class Item extends Component {
+const Item = ({
+  label,
+  onDeleted,
+  onToggleImportant,
+  onToggleDone,
+  important,
+  done
+}) => {
+  /*
   state = {
     important: false,
     done: false
   }
-
   onItemClick = () => {
     this.setState(({ done }) => ({
       done: !done
@@ -17,28 +24,19 @@ class Item extends Component {
       important: !important
     }))
   }
-
-  render() {
-    const {
-      label,
-      onDeleted,
-      onToggleImportant,
-      onToggleDone
-    } = this.props
-    const { important, done } = this.state
-    return (
-      <div
-        style={[
-          important && styles.important,
-          done && styles.done
-        ]}
-      >
-        <div onClick={onToggleDone}>{label}</div>
-        <button onClick={onToggleImportant}>!</button>
-        <button onClick={onDeleted}>X</button>
-      </div>
-    )
-  }
+  */
+  return (
+    <div
+      style={[
+        important && styles.important,
+        done && styles.done
+      ]}
+    >
+      <div onClick={onToggleDone}>{label}</div>
+      <button onClick={onToggleImportant}>!</button>
+      <button onClick={onDeleted}>X</button>
+    </div>
+  )
 }
 
 const styles = {
