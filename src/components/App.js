@@ -4,6 +4,7 @@ import List from "./List"
 import Header from "./Header"
 import Search from "./Search"
 import Filter from "./Filter"
+import AddForm from "./AddForm"
 
 class App extends Component {
   state = {
@@ -26,7 +27,8 @@ class App extends Component {
         done: true,
         important: false
       }
-    ]
+    ],
+    search: ""
   }
   addItem = () => {
     const todoData = [...this.state.todoData] // копия, поскольку метод меняет исходный массив а стейт нельзя менять напрямую, те, что не меняют можно юзать без копии
@@ -86,25 +88,41 @@ class App extends Component {
       }
     })
   }
+  search(items, search) {
+    // если пустая строка
+    if (search.length === 0) {
+      return items
+    }
+    return items.filter(
+      item =>
+        item.label
+          .toLowerCase()
+          .indexOf(search.toLowerCase()) > -1
+    )
+  }
+  onSearchChange = search => {
+    this.setState({ search })
+  }
   render() {
-    const { todoData } = this.state
+    const { todoData, search } = this.state
     // в doneCount только те элементы у которых done = true и их количество
     const doneCount = todoData.filter(el => el.done).length
     const todoCount = todoData.length - doneCount
+    const visibleItems = this.search(todoData, search)
     return (
       <React.Fragment>
         <Header />
         <div>Done: {doneCount}</div>
         <div>To do: {todoCount}</div>
-        <button onClick={this.addItem}>Добавить</button>
-        <Search />
+        <Search onSearchChange={this.onSearchChange} />
         <Filter />
         <List
-          todos={todoData}
+          todos={visibleItems}
           onDeleted={this.deleteItem}
           onToggleDone={this.onToggleDone}
           onToggleImportant={this.onToggleImportant}
         />
+        <AddForm onItemAdded={this.addItem} />
       </React.Fragment>
     )
   }
