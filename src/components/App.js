@@ -28,14 +28,15 @@ class App extends Component {
         important: false
       }
     ],
-    search: ""
+    search: "",
+    filter: ""
   }
-  addItem = () => {
+  addItem = label => {
     const todoData = [...this.state.todoData] // копия, поскольку метод меняет исходный массив а стейт нельзя менять напрямую, те, что не меняют можно юзать без копии
     // действие
     const newItem = {
       id: Math.max(...todoData.map(item => item.id)) + 1, // max + 1
-      label: "ssdc"
+      label: label
     }
     todoData.push(newItem)
     this.setState({ todoData }) // в состояние
@@ -100,15 +101,30 @@ class App extends Component {
           .indexOf(search.toLowerCase()) > -1
     )
   }
+  filter(items, filter) {
+    switch (filter) {
+      case "all":
+        return items
+      case "active":
+        return items.filter(item => !item.done)
+      case "done":
+        return items.filter(item => item.done)
+      default:
+        return items
+    }
+  }
   onSearchChange = search => {
     this.setState({ search })
   }
   render() {
-    const { todoData, search } = this.state
+    const { todoData, search, filter } = this.state
     // в doneCount только те элементы у которых done = true и их количество
     const doneCount = todoData.filter(el => el.done).length
     const todoCount = todoData.length - doneCount
-    const visibleItems = this.search(todoData, search)
+    const visibleItems = this.filter(
+      this.search(todoData, search),
+      filter
+    )
     return (
       <React.Fragment>
         <Header />
